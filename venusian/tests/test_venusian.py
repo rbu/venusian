@@ -174,6 +174,18 @@ class TestScanner(unittest.TestCase):
             self.assertEqual(test.registrations[1]['name'], 'Parent')
             self.assertEqual(test.registrations[1]['attr'], 'parent')
 
+        def test_method_decorations_arent_inherited_from_instance(self):
+            from venusian.tests.fixtures.inheritance import decorated_method_with_instance
+            test = Test()
+            scanner = self._makeOne(test=test)
+            scanner.scan(decorated_method_with_instance.module)
+            test.registrations.sort(key=lambda x: (x['name'], x['ob'].__module__))
+            self.assertEqual(len(test.registrations), 3)
+            self.assertEqual(test.registrations[0]['name'], 'child2')
+            self.assertEqual(test.registrations[0]['attr'], 'child')
+            self.assertEqual(test.registrations[1]['name'], 'parent')
+            self.assertEqual(test.registrations[1]['attr'], 'parent')
+
         def test_classdecorator(self): # pragma: no cover
             from venusian.tests.fixtures import classdecorator
             test = Test()
