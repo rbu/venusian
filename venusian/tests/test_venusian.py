@@ -143,14 +143,14 @@ class TestScanner(unittest.TestCase):
 
     if sys.version_info >= (2, 6):
 
-        def test_decorations_arent_inherited(self):
-            from venusian.tests.fixtures import inheritance
+        def test_class_decorations_arent_inherited(self):
+            from venusian.tests.fixtures.inheritance import decorated_class
             test = Test()
             scanner = self._makeOne(test=test)
-            scanner.scan(inheritance)
+            scanner.scan(decorated_class)
             self.assertEqual(test.registrations, [
                 dict(name='Parent',
-                     ob=inheritance.Parent),
+                     ob=decorated_class.Parent),
                 ])
 
         def test_classdecorator(self): # pragma: no cover
