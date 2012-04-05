@@ -156,6 +156,9 @@ class Scanner(object):
                 attached_categories = getattr(ob, ATTACH_ATTR)
                 if not attached_categories.attached_to(ob):
                     return
+                import inspect
+                if inspect.isclass(ob) and not ATTACH_ATTR in ob.__dict__:
+                    return
             except:
                 return
             if category_keys is None:
